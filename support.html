@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Support — Offline AI Stock Analysis</title>
+<meta name="description" content="Help, common questions and known limits for Offline AI Stock Analysis.">
+<meta name="color-scheme" content="light dark">
+<style>
+  :root{
+    --bg:#FFFFFF; --surface:#F5F7FA; --surface2:#EDF0F5; --stroke:#E1E5EB;
+    --text:#0F1319; --text2:#4B5361; --text3:#7C8593;
+    --accent:#3D5AFE; --accent2:#2B45D6; --accentSoft:rgba(61,90,254,.10);
+    --pos:#0E9F6E; --neg:#E02424;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#000000; --surface:#0E1014; --surface2:#15181E; --stroke:#23262C;
+      --text:#FFFFFF; --text2:#A6ADBA; --text3:#737B87;
+      --accent:#6B85FF; --accent2:#8AA0FF; --accentSoft:rgba(107,133,255,.13);
+      --pos:#31C48D; --neg:#F98080;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:40px 20px 96px}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+  a:hover{border-bottom-color:currentColor}
+
+  /* ── brand bar ───────────────────────────────────────────── */
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:38px}
+  .brand .tile{width:44px;height:44px;border-radius:11px;flex:0 0 auto;
+    background:linear-gradient(135deg,#6B85FF,#2B3FD4);
+    display:flex;align-items:center;justify-content:center}
+  .brand .name{font-weight:700;font-size:15.5px;letter-spacing:-.2px;line-height:1.25}
+  .brand .name span{display:block;color:var(--text3);font-weight:500;font-size:12.5px}
+
+  /* ── hero ────────────────────────────────────────────────── */
+  h1{font-size:clamp(30px,6vw,42px);line-height:1.1;letter-spacing:-1px;margin:0 0 14px;
+    font-weight:800}
+  .lede{font-size:18.5px;line-height:1.55;color:var(--text2);margin:0 0 8px}
+  .lede strong{color:var(--text)}
+  .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.7px;
+    text-transform:uppercase;color:var(--accent);background:var(--accentSoft);
+    padding:6px 11px;border-radius:999px;margin-bottom:18px}
+
+  h2{font-size:21px;letter-spacing:-.4px;margin:44px 0 12px;font-weight:700}
+  h3{font-size:15.5px;letter-spacing:-.2px;margin:0 0 5px;font-weight:650}
+  p,li{color:var(--text2)}
+  ul{padding-left:20px;margin:12px 0}
+  li{margin:7px 0}
+  strong{color:var(--text);font-weight:640}
+
+  .card{background:var(--surface);border:1px solid var(--stroke);border-radius:16px;
+    padding:20px 22px;margin:18px 0}
+  .card h3{color:var(--text)}
+  .card p:last-child{margin-bottom:0}
+  .card p:first-of-type{margin-top:0}
+
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:18px 0}
+  .grid .card{margin:0}
+
+  .row{display:flex;gap:13px;align-items:flex-start;padding:15px 0;
+    border-bottom:1px solid var(--stroke)}
+  .row:last-child{border-bottom:0}
+  .row .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);
+    margin-top:8px;flex:0 0 auto}
+  .row .body{flex:1;min-width:0}
+  .row .body p{margin:3px 0 0;font-size:14px}
+
+  .src{font-size:12.5px;font-weight:650;color:var(--accent);margin:2px 0 4px}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px;
+    display:block;overflow-x:auto}
+  th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--stroke);
+    vertical-align:top}
+  th{color:var(--text3);font-weight:650;font-size:11.5px;text-transform:uppercase;
+    letter-spacing:.5px;white-space:nowrap}
+  td{color:var(--text2)}
+  td strong{color:var(--text)}
+
+  .note{background:var(--surface2);border-left:3px solid var(--accent);
+    border-radius:0 12px 12px 0;padding:14px 18px;margin:20px 0;font-size:14.5px;
+    color:var(--text2)}
+  .note strong{color:var(--text)}
+
+  .foot{margin-top:60px;padding-top:24px;border-top:1px solid var(--stroke);
+    color:var(--text3);font-size:13.5px}
+  .foot a{color:var(--text2)}
+  .updated{color:var(--text3);font-size:13.5px;margin-top:-4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="brand">
+  <div class="tile"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true"><g fill="#fff"><rect x="14" y="46" width="14" height="30" rx="4"/><rect x="34" y="31" width="14" height="45" rx="4"/><rect x="54" y="39" width="14" height="37" rx="4"/><rect x="74" y="22" width="14" height="54" rx="4"/><rect x="10" y="81" width="82" height="7" rx="3.5"/></g></svg></div>
+  <div class="name">Offline AI Stock Analysis<span>Every number, back to its filing</span></div>
+</div>
+<span class="kicker">Support</span>
+<h1>Help with the app.</h1>
+<p class="lede">Most questions are about where a number came from — and every
+number in the app answers that itself. Tap it.</p>
+
+<div class="note"><strong>Fastest route.</strong> Email
+<a href="mailto:sivavimelrajhen@gmail.com">sivavimelrajhen@gmail.com</a> with
+the ticker and what looked wrong. Screenshots help. There is no account, so
+there is nothing for you to verify first.</div>
+
+<h2>Getting started</h2>
+<div class="row"><div class="dot"></div><div class="body">
+  <h3>Look a company up</h3>
+  <p>Type a ticker on the Markets screen. Over ten thousand US companies and
+  funds are bundled in the app, so search works offline and instantly. Tap one
+  and it downloads twelve years of filings and ten years of prices, once.</p>
+</div></div>
+<div class="row"><div class="dot"></div><div class="body">
+  <h3>Choose your country</h3>
+  <p>The flag at the top right of Markets switches market. Sixteen are
+  supported. Whatever you follow keeps updating regardless of which country you
+  are viewing.</p>
+</div></div>
+<div class="row"><div class="dot"></div><div class="body">
+  <h3>Everything works offline afterwards</h3>
+  <p>Charts, screens, comparisons, the portfolio and the written summaries all
+  run on the device. A connection is only needed to fetch new data.</p>
+</div></div>
+
+<h2>Common questions</h2>
+
+<div class="card">
+  <h3>Where did this number come from?</h3>
+  <p>Tap any figure. You get what it measures, the arithmetic that produced it,
+  the sector median it sits against, and every XBRL concept, period and
+  accession number behind it — with a link that opens the filing on sec.gov.</p>
+</div>
+
+<div class="card">
+  <h3>Why does a company outside the US have no margins or P/E?</h3>
+  <p>Because it files nothing with the SEC, and SEC filings are the only source
+  this app quotes a financial figure from. Prices, returns, volatility and
+  dividends all work for it. If the same company also lists in the US it files a
+  20-F, and under its US ticker everything works.</p>
+</div>
+
+<div class="card">
+  <h3>Why won't it find an Omani (MSX) stock?</h3>
+  <p>The price feed this app uses has no Muscat Securities Exchange coverage.
+  Rather than list a country that silently finds nothing, Oman is left out until
+  a source exists.</p>
+</div>
+
+<div class="card">
+  <h3>The AI wrote plainer text than I expected.</h3>
+  <p>Deliberate. Anything the model writes is checked against the figures the
+  app computed; a sentence containing a number the app did not compute, or any
+  hint of a recommendation, is discarded and the app's own wording is shown
+  instead. On a model this small that check fires often. That is the feature
+  working.</p>
+</div>
+
+<div class="card">
+  <h3>Why are prices delayed?</h3>
+  <p>They are end-of-day closes from a public feed, and are labelled as delayed
+  everywhere they appear. This is an app for reading filings, not for trading.</p>
+</div>
+
+<div class="card">
+  <h3>A figure looks wrong.</h3>
+  <p>Tap it and open the filing. If the app disagrees with the filing, that is a
+  bug and I want to hear about it — email the ticker and the measure. If they
+  agree, the filer reported it that way.</p>
+</div>
+
+<div class="card">
+  <h3>How do I get my data out?</h3>
+  <p>Every screen with a table exports CSV in full, with no row cap: metrics
+  with their sources, full statements, price history, dividends, screens, the
+  portfolio and the correlation matrix.</p>
+</div>
+
+<div class="card">
+  <h3>How do I delete everything?</h3>
+  <p>Settings has "Clear downloaded data". Deleting the app removes everything
+  else. There is no account and no server copy, so there is nothing else to
+  erase.</p>
+</div>
+
+<h2>Known limits, stated plainly</h2>
+<ul>
+  <li><strong>No verdicts.</strong> No buy, sell or hold, no price targets, no
+  ratings, no confidence scores.</li>
+  <li><strong>No predictions.</strong> Every figure describes something already
+  reported.</li>
+  <li><strong>Screens run over your cache</strong>, not the whole market.</li>
+  <li><strong>Sector medians are thin</strong> — the median of the companies you
+  happen to have downloaded. Below five, nothing is shown.</li>
+  <li><strong>Backtests are biased upwards</strong>: the universe is what
+  survived to be downloaded today, and there are no costs. The caveats print
+  above every result.</li>
+  <li><strong>Institutional ownership is counted, not parsed.</strong> The 5%
+  declarations are prose, and the app will not guess at a number it cannot
+  cite.</li>
+</ul>
+
+<h2>Requirements</h2>
+<p>iPhone or iPad running iOS 17 or later. The app is around 800 MB because the
+language model ships inside it — that is what makes it work with no connection
+and no account.</p>
+
+<h2>Contact</h2>
+<p>Email <a href="mailto:sivavimelrajhen@gmail.com">sivavimelrajhen@gmail.com</a>.
+I read everything.</p>
+<div class="foot">
+  <p><strong>Offline AI Stock Analysis</strong> · Built by Sivavimelrajhen ·
+     <a href="mailto:sivavimelrajhen@gmail.com">sivavimelrajhen@gmail.com</a></p>
+  <p>Financial data from public SEC filings and a public delayed price feed.
+     This app reports what filings say. It is not investment advice, not a
+     recommendation and not a broker.</p>
+</div>
+</div>
+</body>
+</html>
